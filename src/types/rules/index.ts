@@ -96,25 +96,25 @@ const functions = {
       value.includes(term),
     [operators["STRING"]["ENDS_WITH"]]: (
       term: string,
-      value: string
+      value: string,
     ): boolean => value.endsWith(term),
     [operators["STRING"]["STARTS_WITH"]]: (
       term: string,
-      value: string
+      value: string,
     ): boolean => value.startsWith(term),
     [operators["STRING"]["EQUALS"]]: (term: string, value: string): boolean =>
       term == value,
     [operators["STRING"]["LENGTH_EQUALS"]]: (
       term: string,
-      value: number
+      value: number,
     ): boolean => term.length == value,
     [operators["STRING"]["LENGTH_GREATER_THAN"]]: (
       term: string,
-      value: number
+      value: number,
     ): boolean => term.length > value,
     [operators["STRING"]["LENGTH_LESS_THAN"]]: (
       term: string,
-      value: number
+      value: number,
     ): boolean => term.length < value,
   },
 
@@ -123,14 +123,14 @@ const functions = {
       lhs === rhs,
     [operators["NUMBER"]["GREATER_THAN"]]: (
       lhs: number,
-      rhs: number
+      rhs: number,
     ): boolean => lhs > rhs,
     [operators["NUMBER"]["LESS_THAN"]]: (lhs: number, rhs: number): boolean =>
       lhs < rhs,
     [operators["NUMBER"]["AROUND"]]: (
       value: number,
       target: number,
-      threshold: number
+      threshold: number,
     ): boolean => Math.abs(value - target) <= threshold,
     [operators["NUMBER"]["IS_NEGATIVE"]]: (value: number): boolean => value < 0,
     [operators["NUMBER"]["IS_ZERO"]]: (value: number): boolean => value === 0,
@@ -138,7 +138,7 @@ const functions = {
       value % 1 !== 0,
     [operators["NUMBER"]["IS_PRECISION"]]: (
       value: number,
-      precision: number
+      precision: number,
     ): boolean => {
       const str = value.toString();
       const decimalPointIndex = str.indexOf(".");
@@ -147,21 +147,21 @@ const functions = {
     },
     [operators["NUMBER"]["BETWEEN"]]: (
       value: number,
-      range: { min: number; max: number }
+      range: { min: number; max: number },
     ): boolean => value > range.min && value < range.max,
     [operators["NUMBER"]["IS_EVEN"]]: (value: number): boolean =>
       value % 2 === 0,
     [operators["NUMBER"]["IS_DIVISIBLE_BY"]]: (
       value: number,
-      divisor: number
+      divisor: number,
     ): boolean => divisor !== 0 && value % divisor === 0,
     [operators["NUMBER"]["IS_MULTIPLE_OF"]]: (
       value: number,
-      base: number
+      base: number,
     ): boolean => base !== 0 && value % base === 0,
     [operators["NUMBER"]["IS_FACTOR_OF"]]: (
       factor: number,
-      value: number
+      value: number,
     ): boolean => factor !== 0 && value % factor === 0,
   },
 
@@ -174,7 +174,7 @@ const functions = {
       date.getTime() > referenceDate.getTime(),
     [operators["DATE"]["BETWEEN"]]: (
       date: Date,
-      range: { start: Date; end: Date }
+      range: { start: Date; end: Date },
     ): boolean =>
       date.getTime() > range.start.getTime() &&
       date.getTime() < range.end.getTime(),
@@ -194,30 +194,30 @@ const functions = {
     },
     [operators["ARRAY"]["LENGTH_GREATER_THAN"]]: (
       array: any[],
-      length: number
+      length: number,
     ): boolean => array.length > length,
     [operators["ARRAY"]["LENGTH_EQUALS"]]: (
       array: any[],
-      length: number
+      length: number,
     ): boolean => array.length === length,
     [operators["ARRAY"]["LENGTH_LESS_THAN"]]: (
       array: any[],
-      length: number
+      length: number,
     ): boolean => array.length < length,
     [operators["ARRAY"]["LENGTH_BETWEEN"]]: (
       array: any[],
-      range: { min: number; max: number }
+      range: { min: number; max: number },
     ): boolean => array.length > range.min && array.length < range.max,
     [operators["ARRAY"]["SATISFIES"]]: (
       array: any[],
-      predicate: (item: any) => boolean
+      predicate: (item: any) => boolean,
     ): boolean => array.some(predicate),
   },
 
   [operands.EVALUATION.OBJECT]: {
     [operators["OBJECT"]["EQUALS"]]: (
       obj1: Record<string, any>,
-      obj2: Record<string, any>
+      obj2: Record<string, any>,
     ): boolean => {
       const keys1 = Object.keys(obj1);
       const keys2 = Object.keys(obj2);
@@ -232,11 +232,11 @@ const functions = {
     },
     [operators["OBJECT"]["CONTAINS"]]: (
       obj: Record<string, any>,
-      key: string
+      key: string,
     ): boolean => key in obj,
     [operators["OBJECT"]["SATISFIES"]]: (
       obj: Record<string, any>,
-      predicate: (key: string, value: any) => boolean
+      predicate: (key: string, value: any) => boolean,
     ): boolean => {
       for (const [key, value] of Object.entries(obj)) {
         if (predicate(key, value)) return true;
@@ -258,7 +258,7 @@ const functions = {
     },
     [operators["JSON"]["SATISFIES"]]: (
       json: string,
-      predicate: (obj: any) => boolean
+      predicate: (obj: any) => boolean,
     ): boolean => {
       try {
         const obj = JSON.parse(json);
@@ -280,7 +280,7 @@ const functions = {
     [operators["COMMON"]["ASSERTION"]["ASSERT_NOT"]]: (a: boolean): boolean =>
       !a,
     [operators["COMMON"]["NULLISH"]["IS_EMPTY"]]: (
-      a: string | any[]
+      a: string | any[],
     ): boolean => a.length === 0,
     [operators["COMMON"]["NULLISH"]["IS_NAN"]]: (a: number): boolean =>
       Number.isNaN(a),
@@ -295,24 +295,35 @@ const functions = {
 
 functions["COMMON"]["AND"](
   functions["STRING"]["CONTAINS"]("hello", "hello world"),
-  functions["STRING"]["LENGTH_GREATER_THAN"]("hello world", 7)
+  functions["STRING"]["LENGTH_GREATER_THAN"]("hello world", 7),
 );
 
 // Factory Pattern
-
 type OperandMap<T extends string> = {
   [K in T]: K;
 };
 
 // Operand factory function
 function createOperands<T extends readonly string[]>(
-  values: T
+  values: T,
 ): OperandMap<T[number]> {
-  return values.reduce((acc, key) => {
-    acc[key as keyof OperandMap<T[number]>] = key;
-    return acc;
-  }, {} as OperandMap<T[number]>);
+  return values.reduce(
+    (acc, key) => {
+      acc[key as keyof OperandMap<T[number]>] = key;
+      return acc;
+    },
+    {} as OperandMap<T[number]>,
+  );
 }
+
+const someString = ["hello", "world"];
+
+functions["COMMON"]["AND"](
+  functions["ARRAY"]["CONTAINS"](someString, "hello"),
+  functions["COMMON"]["ASSERT_NOT"](
+    functions["ARRAY"]["CONTAINS"](someString, "world"),
+  ),
+);
 
 const Verbosity = [
   "TRACE", // too much logs, highest level of verbosity. Discouraged to be used in production or staging even.
@@ -339,6 +350,6 @@ export const ZRuleSchema = z.object({
     .optional()
     .default(false)
     .describe(
-      "should this condition be evaluated inversely? meaning, are you looking for a failing condition? if yes, set this to true"
+      "should this condition be evaluated inversely? meaning, are you looking for a failing condition? if yes, set this to true",
     ),
 });
