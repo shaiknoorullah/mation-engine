@@ -1959,7 +1959,7 @@ Simple Conditions (1 operator):
 └── Throughput: >100,000 evals/sec
 
 Complex Conditions (10+ nested operators):
-├── Memory: ~200KB per condition  
+├── Memory: ~200KB per conditions
 ├── Evaluation: <5ms average
 └── Throughput: >20,000 evals/sec
 
@@ -1977,14 +1977,14 @@ Simple Workflows (5 tasks):
 ├── Optimal parallelization: 2-3x speedup
 └── Memory: <1MB per workflow
 
-Complex Workflows (50+ tasks): 
+Complex Workflows (50+ tasks):
 ├── Overhead: <100ms
 ├── Optimal parallelization: 5-10x speedup
 └── Memory: <10MB per workflow
 
 Enterprise Workflows (500+ tasks):
 ├── Overhead: <1s
-├── Optimal parallelization: 10-20x speedup  
+├── Optimal parallelization: 10-20x speedups
 └── Memory: <100MB per workflow
 ```
 
@@ -2080,8 +2080,8 @@ We welcome contributions! This system is designed to be the universal standard f
 
 ```bash
 # Clone the repository
-git clone https://github.com/org/universal-conditional-engine.git
-cd universal-conditional-engine
+git clone https://github.com/shaiknoorullah/mation-engine.git
+cd mation-engine
 
 # Install dependencies
 pnpm install
@@ -2166,7 +2166,7 @@ Our vision for the future:
 - [ ] **GraphQL Integration**: Native GraphQL schema and resolver support
 - [ ] **Terraform Provider**: Infrastructure-as-code integration
 
-#### Q2 2025  
+#### Q2 2025
 - [ ] **Machine Learning Integration**: ML model conditions and feature flags
 - [ ] **Time-Series Support**: Temporal conditions and windowing functions
 - [ ] **Distributed Evaluation**: Multi-region condition evaluation with consistency
@@ -2192,10 +2192,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Support
 
-- **Documentation**: [https://docs.universal-conditional.io](https://docs.universal-conditional.io)
-- **Discord Community**: [https://discord.gg/universal-conditional](https://discord.gg/universal-conditional)  
-- **GitHub Issues**: [https://github.com/org/universal-conditional-engine/issues](https://github.com/org/universal-conditional-engine/issues)
-- **Enterprise Support**: [enterprise@universal-conditional.io](mailto:enterprise@universal-conditional.io)
+- **GitHub Issues**: [https://github.com/shaiknoorullah/mation-engine/issues](https://github.com/shaiknoorullah/mation-engine/issues)
 
 ---
 
